@@ -1,14 +1,7 @@
 pipeline {
     agent any
-    options { skipDefaultCheckout() }
 
     stages {
-        stage("clone") {
-            steps {
-                bat "\"C:\\Users\\N.Nikhitha\\AppData\\Local\\GitHubDesktop\\app-3.5.5\\resources\\app\\git\\cmd\\git.exe\" clone https://github.com/nikky2125/kube-jenkins-app.git ."
-            }
-        }
-
         stage("compile") {
             steps {
                 bat "mvn clean compile"
