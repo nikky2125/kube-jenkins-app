@@ -1,27 +1,30 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage("clone"){
-            steps{
-             bat "git clone https://github.com/nikky2125/kube-jenkins-app.git"
-            }
-        }
-        stage("compile"){
-            steps{
-            bat "mvn clean compile"
+    options { skipDefaultCheckout() }
+
+    stages {
+        stage("clone") {
+            steps {
+                bat "\"C:\\Users\\N.Nikhitha\\AppData\\Local\\GitHubDesktop\\app-3.5.5\\resources\\app\\git\\cmd\\git.exe\" clone https://github.com/nikky2125/kube-jenkins-app.git ."
             }
         }
 
-         stage("package"){
-            steps{
-            bat "mvn package"
+        stage("compile") {
+            steps {
+                bat "mvn clean compile"
             }
         }
-       stage("docker build"){
-                   steps{
-                   bat "docker build -t kube-jenkins-app:%BUILD_NUMBER% ."
-                   }
-               }
+
+        stage("package") {
+            steps {
+                bat "mvn package"
+            }
         }
 
+        stage("docker build") {
+            steps {
+                bat "docker build -t kube-jenkins-app:%BUILD_NUMBER% ."
+            }
+        }
+    }
 }
