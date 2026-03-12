@@ -1,11 +1,6 @@
 pipeline{
     agent any
     stages{
-        stage("checkout"){
-            steps{
-              git "https://github.com/nikky2125/kube-jenkins-app.git"
-            }
-        }
         stage("compile"){
             steps{
             bat "mvn clean compile"
