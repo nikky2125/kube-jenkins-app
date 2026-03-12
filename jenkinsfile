@@ -1,23 +1,28 @@
-pipeline {
+pipeline{
     agent any
-
-    stages {
-        stage("compile") {
-            steps {
-                bat "mvn clean compile"
+    stages{
+        stage("checkout"){
+            steps{
+              git "https://github.com/nikky2125/kube-jenkins-app.git"
             }
         }
-
-        stage("package") {
-            steps {
-                bat "mvn package"
+        stage("compile"){
+            steps{
+            bat "mvn clean compile"
             }
         }
-
-        stage("docker build") {
-            steps {
-                bat "docker build -t kube-jenkins-app:%BUILD_NUMBER% ."
+ 
+         stage("package"){
+            steps{
+            bat "mvn package"
             }
         }
-    }
+       stage("docker build"){
+                   steps{
+                   bat "docker build -t kube-jenkins-app:%BUILD_NUMBER% ."
+                   }
+               }
+        }
+ 
 }
+ 
