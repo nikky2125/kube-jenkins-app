@@ -1,27 +1,61 @@
 pipeline{
+
     agent any
+
+    tools {
+
+            jdk 'java25'   // matches the name you configured in Jenkins
+
+            maven 'maven' // if you configured Maven in Jenkins too
+
+        }
+
     stages{
-        stage("checout"){
+
+        stage("checkout"){
+
             steps{
-git "https://github.com/nikky2125/kube-jenkins-app.git"
-}
-}
-        stage("compile"){
-            steps{
-            bat "mvn clean compile"
+
+            retry(3){
+
+               git "https://github.com/nikky2125/kube-jenkins-app.git"
+
+               }
+
             }
+
+        }
+
+        stage("compile"){
+
+            steps{
+
+            bat "mvn clean compile"
+
+            }
+
         }
  
          stage("package"){
+
             steps{
+
             bat "mvn package"
+
             }
+
         }
+
        stage("docker build"){
+
                    steps{
+
                    bat "docker build -t kube-jenkins-app:%BUILD_NUMBER% ."
+
                    }
+
                }
+
         }
  
 }
